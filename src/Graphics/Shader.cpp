@@ -24,10 +24,11 @@ Shader::Shader(const char* vertexPath, const char* fragPath)
         fragmentSourceCode = fShaderStream.str();
     }
     catch (std::ifstream::failure err) {
-        std::cerr << "ERROR WITH READING THE SHADER FILES" << std::endl;
+        // std::cerr << "Current Path: " << std::filesystem::current_path() << std::endl;
+        std::cerr << "ERROR WITH READING THE SHADER FILES: " << err.what() << std::endl;
     }
     const char* vShaderProg = vertexSourceCode.c_str();
-    const char* fShaderProg = vertexSourceCode.c_str();
+    const char* fShaderProg = fragmentSourceCode.c_str();
 
     unsigned int vShader, fShader;
     int result;
@@ -63,7 +64,7 @@ Shader::Shader(const char* vertexPath, const char* fragPath)
     if (!result)
     {
         glGetProgramInfoLog(ID, 512, NULL, infoLog);
-        std::cout << "ERROR LINKIG SHADER" << infoLog << std::endl;
+        std::cout << "ERROR LINKIG SHADER: " << infoLog << std::endl;
     }
 
 

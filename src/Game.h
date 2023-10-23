@@ -1,7 +1,8 @@
 #pragma once
 #include "Graphics/Screen.h"
 #include "World/world.h"
-
+#include "player/input.h"
+#include "player/player.h"
 class Game {
 
 
@@ -13,7 +14,12 @@ public:
     void update();
     void render();
 
+    float deltaTime;
+    float lastFrame;
+
 private:
     Screen screen;
+    Input input;
     World* world;
+    Player player;
 };

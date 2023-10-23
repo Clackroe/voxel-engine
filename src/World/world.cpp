@@ -60,15 +60,19 @@ unsigned int compileShaders(const char* vertex, const char* frag) {
 }
 
 
-unsigned int SHADER_PROGRAM;
 
 
-World::World() {
+World::World(Player* plyr)
+{
+    std::cout << "PREFIRE" << std::endl;
+    SHADER_PROGRAM = new Shader("src/Shaders/Default.vert", "src/Shaders/Default.frag");
+    player = plyr;
+    // cam = new Camera();
 
-    SHADER_PROGRAM = compileShaders("src/Shaders/DefaultVertex.shader", "src/Shaders/DefaultFrag.shader");
 
+    //projections
 
-
+       // std::cout << "FIRED" << std::endl;
     float vertices[] = {
          0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // top right
          0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f// bottom right
@@ -103,6 +107,7 @@ World::World() {
 
 
     glBindVertexArray(0);
+    glEnable(GL_DEPTH_TEST);
 }
 
 World::~World() {
@@ -110,19 +115,97 @@ World::~World() {
 }
 
 
-void World::render() {
+void World::render(float deltaTime) {
+
+    // std::cout << "Render" << std::endl;
+
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+
+    // unsigned int transformLoc = glGetUniformLocation(SHADER_PROGRAM->ID, "transform");
+    // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+    // glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)1920 / (float)1080, 0.1f, 100.0f);
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
 
+    // glm::mat4 view = glm::mat4(1.0f);
+    // // note that we're translating the scene in the reverse direction of where we want to move
+    // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    glm::mat4 view = player->cam->getViewMatrix();
+
+    glm::mat4 projection;
+    projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+
+    unsigned int modelLoc = glGetUniformLocation(SHADER_PROGRAM->ID, "model");
+    unsigned int viewLoc = glGetUniformLocation(SHADER_PROGRAM->ID, "view");
+    unsigned int projectionLoc = glGetUniformLocation(SHADER_PROGRAM->ID, "projection");
+
+
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+    SHADER_PROGRAM->use();
     // float time = glfwGetTime();
+    //
     // float greenValue = (sin(time) / 2.0f) + 0.5f;
     // int vertexColorLocation = glGetUniformLocation(SHADER_PROGRAM, "color");
 
-    glUseProgram(SHADER_PROGRAM);
     // glUniform4f(vertexColorLocation, 1.0, greenValue, 1.0, 1.0);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    // glDrawArrays(GL_TRIANGLES, 0, 36);
+    // std::cout << "PostDraw" << std::endl;
 
 }
 
-void World::update() {
+void World::update(float deltaTime) {
+
+    player->processInput(deltaTime);
+    // if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    //     cam->processKeyboardInput(FORWARD, 1.0);
+    // if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    //     cam->processKeyboardInput(BACKWARD, 1.0);
+    // if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    //     cam->processKeyboardInput(LEFT, 1.0);
+    // if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    //     cam->processKeyboardInput(RIGHT, 1.0);
+
 
 }
+
+// // glfw: whenever the mouse moves, this callback is called
+// // -------------------------------------------------------
+// void mouse_callback(GLFWwindow* window, double xposIn, double yposIn, Camera* cam)
+// {
+    // float xpos = static_cast<float>(xposIn);
+//     float ypos = static_cast<float>(yposIn);
+
+//     if (firstMouse)
+//     {
+//         lastX = xpos;
+//         lastY = ypos;
+//         firstMouse = false;
+//     }
+
+//     float xoffset = xpos - lastX;
+//     float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+//     lastX = xpos;
+//     lastY = ypos;
+
+//     cam->processMouseInput(xoffset, yoffset);
+// }
+
+// // glfw: whenever the mouse scroll wheel scrolls, this callback is called
+// // ----------------------------------------------------------------------
+// void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+// {
+//     camera.ProcessMouseScroll(static_cast<float>(yoffset));
+// }

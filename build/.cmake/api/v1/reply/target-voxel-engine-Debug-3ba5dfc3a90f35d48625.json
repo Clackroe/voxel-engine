@@ -97,7 +97,9 @@
 				4,
 				6,
 				8,
-				10
+				10,
+				12,
+				14
 			]
 		}
 	],
@@ -169,7 +171,9 @@
 				4,
 				6,
 				8,
-				10
+				10,
+				12,
+				14
 			]
 		},
 		{
@@ -181,7 +185,10 @@
 				5,
 				7,
 				9,
-				11
+				11,
+				13,
+				15,
+				16
 			]
 		}
 	],
@@ -247,6 +254,33 @@
 			"compileGroupIndex" : 1,
 			"path" : "src/main.cpp",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/player/camera.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/player/input.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/player/input.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/player/player.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/player/player.h",
+			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
