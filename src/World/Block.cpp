@@ -2,19 +2,20 @@
 
 Block::Block(float x, float y, float z)
 {
-    worldPos.x = x;
-    worldPos.y = y;
-    worldPos.z = z;
     const float SIZE = 1.0f;
+    const float vertOffset = SIZE / 2;
+    worldPos.x = x * SIZE;
+    worldPos.y = y * SIZE;
+    worldPos.z = z * SIZE;
     GLfloat vertices[8 * 3] = {
-           -SIZE, -SIZE,  SIZE,
-            SIZE, -SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-           -SIZE,  SIZE,  SIZE,
-           -SIZE, -SIZE, -SIZE,
-            SIZE, -SIZE, -SIZE,
-            SIZE,  SIZE, -SIZE,
-           -SIZE,  SIZE, -SIZE
+           -vertOffset, -vertOffset,  vertOffset,
+            vertOffset, -vertOffset,  vertOffset,
+            vertOffset,  vertOffset,  vertOffset,
+           -vertOffset,  vertOffset,  vertOffset,
+           -vertOffset, -vertOffset, -vertOffset,
+            vertOffset, -vertOffset, -vertOffset,
+            vertOffset,  vertOffset, -vertOffset,
+           -vertOffset,  vertOffset, -vertOffset
     };
 
     GLuint indices[6 * 6] = {
@@ -36,9 +37,6 @@ Block::Block(float x, float y, float z)
 void Block::render(glm::mat4 view) {
     shader->use();
     glm::mat4 pos = glm::translate(glm::mat4(1.0f), worldPos);
-    // glm::mat4 model = glm::mat4(1.0f);
-    // model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
     shader->setMat4("model", pos);
     shader->setMat4("view", view);
     // shader->("block_color", color);
