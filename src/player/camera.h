@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
+#include "../Graphics/Screen.h"
 
 
 enum cameraMovement {
@@ -24,6 +25,9 @@ const float FOV = 45.0f;
 class Camera {
 
 public:
+
+    static glm::mat4 getProjection() { return glm::perspective(glm::radians(FOV), (float)Screen::getWidth() / (float)Screen::getHeight(), 0.1f, 100.0f); };
+
     glm::vec3 cameraPosition, cameraUp, cameraFront, cameraRight, worldUp;
     float cameraYaw, cameraPitch, cameraMovementSpeed, cameraMouseSens, cameraFOV;
 

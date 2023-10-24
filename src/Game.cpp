@@ -27,19 +27,17 @@ bool Game::isRunning() {
 
 void Game::update()
 {
-    // world->update(screen.window);
+    screen.Update();
+
 }
-
-
 void Game::render() {
     float currentFrame = static_cast<float>(glfwGetTime());
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    screen.Clear();
     world->update(deltaTime);
+    screen.Clear();
     world->render(deltaTime);
-    screen.Update();
 }
 
 void mouse_update(GLFWwindow* window, double xPosIn, double yPosIn) {

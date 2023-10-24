@@ -3,6 +3,7 @@
 #include "../Graphics/Screen.h"
 #include <set>
 #include <map>
+#include <glm/glm.hpp>
 
 enum input_keys {
     FORWARD_KEY,

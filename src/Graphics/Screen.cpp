@@ -1,11 +1,14 @@
 #include "Screen.h"
 #include <iostream>
 
+int Screen::SCR_WIDTH;
+int Screen::SCR_HEIGHT;
+
 
 Screen::Screen(int SCR_WIDTH, int SCR_HEIGHT, const char* title)
 {
-    this->SCR_WIDTH = SCR_WIDTH;
-    this->SCR_HEIGHT = SCR_HEIGHT;
+    Screen::SCR_WIDTH = SCR_WIDTH;
+    Screen::SCR_HEIGHT = SCR_HEIGHT;
     this->window_title = title;
 
     glfwInit();
@@ -27,18 +30,28 @@ Screen::~Screen()
 
 int Screen::getWidth()
 {
-    return SCR_WIDTH;
+    if (Screen::SCR_WIDTH) {
+        return SCR_WIDTH;
+    }
+    else {
+        return -1;
+    }
 }
 
 int Screen::getHeight()
 {
-    return SCR_HEIGHT;
+    if (Screen::SCR_HEIGHT) {
+        return SCR_HEIGHT;
+    }
+    else {
+        return -1;
+    }
 }
 
 void Screen::Update()
 {
-    glfwSwapBuffers(this->window);
     glfwPollEvents();
+    glfwSwapBuffers(this->window);
     GLenum err;
     while ((err = glGetError()) != GL_NO_ERROR) {
         // std::cerr << err << std::endl;
@@ -66,6 +79,8 @@ void Screen::initOpenGL()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     glfwMakeContextCurrent(this->window);
+
+    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     // glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

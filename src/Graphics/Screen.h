@@ -9,15 +9,15 @@ public:
     Screen(int SCR_WIDTH, int SCR_HEIGHT, const char* title);
     ~Screen();
 
-    int getWidth();
-    int getHeight();
+    static int getWidth();
+    static int getHeight();
     void Update();
     void Clear();
 
     GLFWwindow* window;
 
 private:
-    int SCR_WIDTH, SCR_HEIGHT;
+    static int SCR_WIDTH, SCR_HEIGHT;
     const char* window_title;
     void initOpenGL();
     void processInput();

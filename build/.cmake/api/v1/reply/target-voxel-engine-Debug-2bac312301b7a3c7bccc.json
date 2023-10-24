@@ -99,7 +99,9 @@
 				8,
 				10,
 				12,
-				14
+				14,
+				16,
+				18
 			]
 		}
 	],
@@ -173,7 +175,9 @@
 				8,
 				10,
 				12,
-				14
+				14,
+				16,
+				18
 			]
 		},
 		{
@@ -188,7 +192,9 @@
 				11,
 				13,
 				15,
-				16
+				17,
+				19,
+				20
 			]
 		}
 	],
@@ -236,6 +242,28 @@
 		{
 			"backtrace" : 1,
 			"path" : "src/Graphics/Shader.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/Graphics/VertexArray.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Graphics/VertexArray.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/World/Block.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/World/Block.h",
 			"sourceGroupIndex" : 1
 		},
 		{

@@ -67,15 +67,30 @@ Shader::Shader(const char* vertexPath, const char* fragPath)
         std::cout << "ERROR LINKIG SHADER: " << infoLog << std::endl;
     }
 
+    // load();
 
     glDeleteShader(vShader);
     glDeleteShader(fShader);
 
 }
 
+void Shader::load() {
+
+    glm::mat4 projection = Camera::getProjection();
+    setMat4("projection", projection);
+
+
+}
+
 
 void Shader::use() {
     glUseProgram(ID);
+    load();
+}
+
+void Shader::setMat4(const std::string& name, glm::mat4 value)
+{
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void Shader::setBool(const std::string& name, bool value) const

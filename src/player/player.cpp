@@ -5,13 +5,16 @@ Player::Player(Screen* scr, Input* inp) {
     screen = scr;
     input = inp;
     cam = new Camera();
+
+
 }
 
 void Player::update() {
 
 }
 
-void Player::render() {}
+void Player::render() {
+}
 
 
 void Player::processInput(float deltaTime) {
