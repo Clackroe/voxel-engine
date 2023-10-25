@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12.0)
 project(voxel-engine VERSION 0.1.0 LANGUAGES C CXX)
 
 
-file(GLOB MAIN_SRC CONFIGURE_DEPENDS "src/*.h" "src/*.cpp" "src/**/*.c", "src/**/*.cpp", "src/**/*.h")
+file(GLOB MAIN_SRC CONFIGURE_DEPENDS "src/*.h" "src/*.cpp" "src/**/*.c", "src/**/*.cpp", "src/**/*.h", "src/**/**/*.h", "src/**/**/*.cpp")
 
 add_executable(voxel-engine ${MAIN_SRC})
 

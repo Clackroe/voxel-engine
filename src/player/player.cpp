@@ -5,6 +5,7 @@ Player::Player(Screen* scr, Input* inp) {
     screen = scr;
     input = inp;
     cam = new Camera(0.0f, 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+    Renderer* rnd = new Renderer(cam);
 
 
 }

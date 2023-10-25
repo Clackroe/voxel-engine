@@ -10,7 +10,8 @@
 #include "../player/camera.h"
 #include "../player/player.h"
 #include "../Graphics/VertexArray.h"
-#include "Block.h"
+// #include "Block.h"
+#include "../Graphics/Render/Render.h"
 class World {
 
 public:
@@ -18,7 +19,7 @@ public:
     ~World();
 
     // Block* blocks[2];
-    Block* block;
+    // Block* block;
 
     Shader* SHADER_PROGRAM;
     Player* player;
