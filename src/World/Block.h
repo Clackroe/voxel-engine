@@ -25,9 +25,6 @@ inline std::unordered_map<BlockType, BlockInfo> BlockInfoMap = {
 };
 
 struct BlockFace {
-    // GLfloat vertices[12];
-    // GLfloat texCoords[8];
-
     GLfloat vertices[3 * 4];
     GLint indices[6];
     GLfloat normals[3 * 4];
@@ -35,6 +32,15 @@ struct BlockFace {
 };
 
 inline float VERT_OFFSET = 0.5f;
+
+enum FaceIndex {
+    FRONT = 0,
+    BACK = 1,
+    TOP = 2,
+    BOTTOM = 3,
+    L = 4,
+    R = 5
+};
 
 inline BlockFace faces[6] = {
     // Front Face
@@ -212,104 +218,3 @@ inline BlockFace faces[6] = {
         }
     }
 };
-
-// inline BlockFace faces[6] = {
-//     //Front
-//     {
-//         {
-//             -VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 0
-//              VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 1
-//              VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 2
-//             -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 3
-//         },
-//         // texCoords
-//         {
-//             0.0f, 1.0f,
-//             0.5f, 1.0f,
-//             0.5f, 0.5f,
-//             0.0f, 0.5f,
-//         }
-//     },
-//     { // Back
-//         {
-//             -VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 4
-//             -VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 5
-//              VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 6
-//              VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 7
-//         },
-//         // texCoords
-//         {
-//             0.5f, 1.0f,
-//             1.0f, 1.0f,
-//             1.0f, 0.5f,
-//             0.5f, 0.5f,
-
-//         }
-//     },
-//     // Top Face
-//    {
-//        {
-//             -VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 8
-//             -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 11
-//              VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 10
-//              VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 9
-//        },
-//        // texCoords
-//        {
-//            0.0f, 0.5f,
-//            0.5f, 0.5f,
-//            0.5f, 0.0f,
-//            0.0f, 0.0f,
-//        }
-//    },
-//     // Bottom Face
-//     {
-//         // pos
-//         {
-//               -VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 12
-//                VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 13
-//                VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 14
-//               -VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 15
-//         },
-//         // texCoords
-//         {
-//             0.0f, 0.5f,
-//             0.5f, 0.5f,
-//             0.5f, 0.0f,
-//             0.0f, 0.0f,
-//         }
-//     },
-//     // Left Face
-//    {
-//        {
-//              -VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 16
-//              -VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 17
-//              -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 18
-//              -VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 19
-//        },
-//        // texCoords
-//        {
-//            0.0f, 0.5f,
-//            0.5f, 0.5f,
-//            0.5f, 0.0f,
-//            0.0f, 0.0f,
-//        }
-//    },
-//     // Right Face
-//     {
-//         {
-//                VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 20
-//                VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 23
-//                VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 22
-//                VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 21
-//         },
-//         // texCoords
-//         {
-//             0.0f, 0.5f,
-//             0.5f, 0.5f,
-//             0.5f, 0.0f,
-//             0.0f, 0.0f,
-//         }
-//     }
-
-// };

@@ -3,6 +3,7 @@
 #include "../Core/core.h"
 #include "../Graphics/Render/Render.h"
 #include "Block.h"
+#include "../vendor/stb_image.h"
 
 
 
@@ -24,6 +25,8 @@ public:
 
     Chunk(glm::vec2 position);
     ~Chunk();
+
+    void test();
 
     const int CHUNK_SIZE_X = 16;  // X dimension size of a chunk
     const int CHUNK_SIZE_Y = 256; // Y dimension size of a chunk
