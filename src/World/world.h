@@ -12,6 +12,7 @@
 #include "../Graphics/VertexArray.h"
 // #include "Block.h"
 #include "../Graphics/Render/Render.h"
+#include "chunk.h"
 class World {
 
 public:
@@ -25,7 +26,9 @@ public:
     Player* player;
     void render(float deltaTime);
     void update(float deltaTime);
-    VertexArray* vao;
+
+    Chunk* chunk;
+
 
 
 
