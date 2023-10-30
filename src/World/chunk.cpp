@@ -63,34 +63,29 @@ void Chunk::createMesh() {
                 if (blocks[x][y][z].ID != BlockType::AIR) {
 
 
-
                     for (int f = 0; f < 6; f++) { //Loop through Faces
-
                         for (int v = 0; v < 4; v++) { // Loop through verticies
                             int off = v * 3;
                             vertices[baseVertex + f * 12 + off] = faces[f].vertices[off] + (x * VERT_OFFSET * 2);
                             vertices[baseVertex + f * 12 + off + 1] = faces[f].vertices[off + 1] + (y * VERT_OFFSET * 2);
                             vertices[baseVertex + f * 12 + off + 2] = faces[f].vertices[off + 2] + (z * VERT_OFFSET * 2);
                             vcount += 3;
-                            baseVertex += 3;
                         }
                         for (int i = 0; i < 6; i++) { //Create indices
                             indices[baseIndex + f * 6 + i] = faces[f].indices[i] + (4 * f) + baseVertex / 3;
                             icount += 1;
-                            baseIndex += 1;
                         }
                         for (int t = 0; t < 8; t++) {
                             texCoords[baseTex + f * 8 + t] = BlockInfoMap[blocks[x][y][z].ID].textureSlot[t];//faces[f].texCoords[t];
                             // std::cout << texCoords[baseTex + f * 8 + t] << std::endl;
-                            baseTex += 8;
 
                         }
                         // std::cout << std::endl;
 
                     }
-                    // baseVertex += 6 * 4 * 3; // 6 faces per block, 4 vertices per face, 3 components per vertex
-                    // baseIndex += 6 * 6; // 6 faces per block, 6 indices per fac
-                    // baseTex += 8 * 6;
+                    baseVertex += 6 * 4 * 3; // 6 faces per block, 4 vertices per face, 3 components per vertex
+                    baseIndex += 6 * 6; // 6 faces per block, 6 indices per fac
+                    baseTex += 8 * 6;
                 }
             }
         }

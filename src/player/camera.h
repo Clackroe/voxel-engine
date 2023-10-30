@@ -18,7 +18,7 @@ enum cameraMovement {
 
 const float YAW = 0.0f;
 const float PITCH = 0.0f;
-const float SPEED = 2.5f;
+const float SPEED = 8.5f;
 const float SENSITIVITY = 0.1f;
 const float FOV = 45.0f;
 
@@ -26,7 +26,7 @@ class Camera {
 
 public:
 
-    static glm::mat4 getProjection() { return glm::perspective(glm::radians(FOV), (float)Screen::getWidth() / (float)Screen::getHeight(), 0.1f, 100.0f); };
+    static glm::mat4 getProjection() { return glm::perspective(glm::radians(FOV), (float)Screen::getWidth() / (float)Screen::getHeight(), 0.1f, 500.0f); };
 
     glm::vec3 cameraPosition, cameraUp, cameraFront, cameraRight, worldUp;
     float cameraYaw, cameraPitch, cameraMovementSpeed, cameraMouseSens, cameraFOV;
