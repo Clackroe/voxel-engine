@@ -9,14 +9,20 @@
 
 class Chunk {
 
-    inline static int CHUNK_WIDTH = 16;
 
-    struct Block {
-        BlockType ID;
+    struct BlockData {
+        Block::BlockType ID;
         //BlockData* someDataObj
     };
 
     VertexArray* vao;
+
+    int canRender(int x, int y, int z);
+
+    // void addFace(GLfloat* vertices, GLuint* indices, GLfloat* texCoords, GLint* vcount, GLint* icount, int* baseVertex, int* baseIndex, int* baseTex, int* fCursor, int* x, int* y, int* z, Block::FaceIndex f);
+    GLfloat* vertices;
+    GLuint* indices;
+    GLfloat* texCoords;
 
 
 
@@ -34,7 +40,8 @@ public:
 
 
 
-    std::vector<std::vector<std::vector<Block>>> blocks;
+    std::vector<std::vector<std::vector<BlockData>>> blocks;
+    // Block* blocks;
 
     void createMesh();
     void render();

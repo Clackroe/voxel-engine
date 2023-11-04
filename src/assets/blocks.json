@@ -1,0 +1,81 @@
+{
+  "Blocks": {
+    "-1": {
+      "name": "NULL_BLOCK",
+      "hardness": 1.0,
+      "transparent": true,
+      "TOP": "NULL",
+      "BOTTOM": "NULL",
+      "LEFT": "NULL",
+      "RIGHT": "NULL",
+      "FRONT": "NULL",
+      "BACK": "NULL"
+    },
+    "0": {
+      "name": "AIR",
+      "hardness": 0.0,
+      "transparent": true,
+      "TOP": "NULL",
+      "BOTTOM": "NULL",
+      "LEFT": "NULL",
+      "RIGHT": "NULL",
+      "FRONT": "NULL",
+      "BACK": "NULL"
+    },
+    "1": {
+      "name": "STONE",
+      "hardness": 1.0,
+      "transparent": false,
+      "TOP": "stone",
+      "BOTTOM": "stone",
+      "LEFT": "stone",
+      "RIGHT": "stone",
+      "FRONT": "stone",
+      "BACK": "stone"
+    },
+    "2": {
+      "name": "GRASS",
+      "hardness": 1.0,
+      "transparent": false,
+      "TOP": "grass_block_top",
+      "BOTTOM": "dirt",
+      "LEFT": "grass_block_side",
+      "RIGHT": "grass_block_side",
+      "FRONT": "grass_block_side",
+      "BACK": "grass_block_side"
+    },
+    "3": {
+      "name": "DIRT",
+      "hardness": 1.0,
+      "transparent": false,
+      "TOP": "dirt",
+      "BOTTOM": "dirt",
+      "LEFT": "dirt",
+      "RIGHT": "dirt",
+      "FRONT": "dirt",
+      "BACK": "dirt"
+    },
+    "4": {
+      "name": "COBBLESTONE",
+      "hardness": 1.0,
+      "transparent": false,
+      "TOP": "cobblestone",
+      "BOTTOM": "cobblestone",
+      "LEFT": "cobblestone",
+      "RIGHT": "cobblestone",
+      "FRONT": "cobblestone",
+      "BACK": "cobblestone"
+    },
+    "5": {
+      "name": "OAK_PLANKS",
+      "hardness": 1.0,
+      "transparent": false,
+      "TOP": "oak_planks",
+      "BOTTOM": "oak_planks",
+      "LEFT": "oak_planks",
+      "RIGHT": "oak_planks",
+      "FRONT": "oak_planks",
+      "BACK": "oak_planks"
+    }
+  }
+}

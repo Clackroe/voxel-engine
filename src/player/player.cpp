@@ -4,14 +4,21 @@
 Player::Player(Screen* scr, Input* inp) {
     screen = scr;
     input = inp;
-    cam = new Camera(0.0f, 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-    Renderer* rnd = new Renderer(cam);
+    cam = new Camera(0.0f, 200.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+    rnd = new Renderer(cam);
 
 
 }
+Player::~Player() {
+    std::cout << "del cam" << std::endl;
+    delete cam;
+    delete rnd;
+}
 
 void Player::update() {
-
+    // std::cout << fixed;
+    // std::cout.precision(2);
+    // std::cout << "X: " << cam->cameraPosition.x << " Y: " << cam->cameraPosition.y << " Z: " << cam->cameraPosition.z << std::endl;
 }
 
 void Player::render() {

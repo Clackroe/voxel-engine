@@ -22,6 +22,10 @@ Game::Game(int SCR_WIDTH, int SCR_HEIGHT, const char* title)
 
 Game::~Game()
 {
+    delete world;
+    // if (world != nullptr && world != NULL) {
+    //     delete world;
+    // }
 }
 
 bool Game::isRunning() {
@@ -31,6 +35,7 @@ bool Game::isRunning() {
 void Game::update()
 {
     screen.Update();
+    player.update();
 
 }
 void Game::render() {
