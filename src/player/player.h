@@ -12,20 +12,20 @@ class Player {
 public:
 
 
-    Player(Screen* scr, Input* inp);
+    Player(Screen* scr);
     ~Player();
     void update();
     void render();
-    void processInput(float deltaTime);
+    void processInput();
 
     Camera* cam;
 private:
     void processMouseLook();
-    void processKeyboard(float deltaTime);
+    void processKeyboard();
     Renderer* rnd;
 
     Screen* screen;
-    Input* input;
+
 
 
 

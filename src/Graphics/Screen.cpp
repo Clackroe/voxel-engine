@@ -4,6 +4,7 @@
 int Screen::SCR_WIDTH;
 int Screen::SCR_HEIGHT;
 
+static void keyCallback();
 
 Screen::Screen(int SCR_WIDTH, int SCR_HEIGHT, const char* title)
 {
@@ -20,6 +21,8 @@ Screen::Screen(int SCR_WIDTH, int SCR_HEIGHT, const char* title)
     }
 
     initOpenGL();
+
+    initCallbacks();
 }
 
 Screen::~Screen()
@@ -71,6 +74,11 @@ void Screen::Clear()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void Screen::initCallbacks() {
+    glfwSetKeyCallback(window, Input::keyCallback);
+    glfwSetCursorPosCallback(window, Input::mouseCallback);
+    glfwSetMouseButtonCallback(window, Input::mouseButtonCallback);
+}
 
 void Screen::initOpenGL()
 {

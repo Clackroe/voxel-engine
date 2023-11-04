@@ -24,8 +24,8 @@ public:
     // Block* block;
 
     Player* player;
-    void render(float deltaTime);
-    void update(float deltaTime);
+    void render();
+    void update();
 
     std::vector<Chunk*> chunk;
 

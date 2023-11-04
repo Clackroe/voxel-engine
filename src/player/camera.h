@@ -11,7 +11,9 @@ enum cameraMovement {
     FORWARD,
     BACKWARD,
     LEFT,
-    RIGHT
+    RIGHT,
+    DOWN,
+    UP
 };
 
 
@@ -33,6 +35,7 @@ public:
 
     glm::vec3 cameraTarget;
     glm::vec3 cameraDirection = glm::normalize(cameraPosition - cameraTarget);
+    bool firstMouse = true;
 
     // constructor with defaults
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : cameraFront(glm::vec3(0.0f, 0.0f, -1.0f)), cameraMovementSpeed(SPEED), cameraMouseSens(SENSITIVITY), cameraFOV(FOV)
@@ -59,27 +62,49 @@ public:
     }
 
 
-    void processKeyboardInput(cameraMovement dir, float deltaTime) {
-        float vel = cameraMovementSpeed * deltaTime;
+    void processKeyboardInput(cameraMovement dir) {
+        float vel = cameraMovementSpeed * Time::deltaTime;
         if (dir == FORWARD)
-            cameraPosition += cameraFront * vel;
+            cameraPosition += glm::normalize(glm::cross(worldUp, cameraRight)) * vel;
         if (dir == BACKWARD)
-            cameraPosition -= cameraFront * vel;
+            cameraPosition -= glm::normalize(glm::cross(worldUp, cameraRight)) * vel;
         if (dir == LEFT)
             cameraPosition -= cameraRight * vel;
         if (dir == RIGHT)
             cameraPosition += cameraRight * vel;
+        if (dir == UP)
+            cameraPosition += worldUp * vel;
+        if (dir == DOWN)
+            cameraPosition -= worldUp * vel;
     }
 
-    void processMouseInput(float xOffset, float yOffset, GLboolean constrainPitch = true) {
+    void processMouseInput(GLboolean constrainPitch = true) {
 
         // std::cout << cameraFront.x << std::endl;
 
-        xOffset *= cameraMouseSens;
-        yOffset *= cameraMouseSens;
+        float xpos = static_cast<float>(Input::xPos);
+        float ypos = static_cast<float>(Input::yPos);
 
-        cameraYaw += xOffset;
-        cameraPitch += yOffset;
+        if (firstMouse)
+        {
+            Input::lastX = xpos;
+            Input::lastY = ypos;
+            firstMouse = false;
+        }
+
+        float xoffset = xpos - Input::lastX;
+        float yoffset = Input::lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+        Input::lastX = xpos;
+        Input::lastY = ypos;
+
+        // return std::make_pair(xoffset, yoffset);
+
+        xoffset *= cameraMouseSens;
+        yoffset *= cameraMouseSens;
+
+        cameraYaw += xoffset;
+        cameraPitch += yoffset;
 
         if (constrainPitch)
         {

@@ -38,7 +38,7 @@ World::~World() {
 }
 
 
-void World::render(float deltaTime) {
+void World::render() {
 
 
     for (Chunk* c : chunk)
@@ -49,10 +49,10 @@ void World::render(float deltaTime) {
 
 }
 
-void World::update(float deltaTime) {
+void World::update() {
 
     Renderer::BLOCK->setMat4("view", player->cam->getViewMatrix());
-    player->processInput(deltaTime);
+    player->processInput();
 
 
 }

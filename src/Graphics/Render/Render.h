@@ -10,7 +10,7 @@ public:
     static Shader* BLOCK;
     static Camera* CAMERA;
 
-    Renderer(Camera* cam);
+    Renderer();
 
 
 

@@ -5,11 +5,11 @@ Shader* Renderer::BLOCK;
 
 Camera* Renderer::CAMERA;
 
-Renderer::Renderer(Camera* cam)
+Renderer::Renderer()
 {
     Renderer::BLOCK = new Shader("/home/clack/Documents/SideProjs/voxel-engine/src/Shaders/Default.vert", "/home/clack/Documents/SideProjs/voxel-engine/src/Shaders/Default.frag");
 
-    Renderer::CAMERA = cam;
+    // Renderer::CAMERA = cam;
 }
 
 

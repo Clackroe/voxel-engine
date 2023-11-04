@@ -10,17 +10,13 @@ class Game {
 public:
     Game(int SCR_WIDTH, int SCR_HEIGHT, const char* title);
     ~Game();
-    // bool isRunning = false;
+
     bool isRunning();
     void update();
     void render();
 
-    float deltaTime;
-    float lastFrame;
-
 private:
     Screen screen;
-    Input input;
     World* world;
     Player player;
 };

@@ -52,7 +52,7 @@ namespace Texture {
                 int w, h, c;
                 unsigned char* data = stbi_load(tex.path.c_str(), &w, &h, &c, 0);
                 if (w != textureSize || h != textureSize) {
-                    printf("Texture: %s is not 16x16, Skipping\n", tex.path.c_str());
+                    // printf("Texture: %s is not 16x16, Skipping\n", tex.path.c_str());
                     continue;
                 }
                 if (data) {
@@ -85,9 +85,9 @@ namespace Texture {
             for (auto const& dir_entry : std::filesystem::directory_iterator{ texturesPath }) {
                 std::string name = dir_entry.path().filename().string();
                 name = dir_entry.path().stem().string();
-                std::cout << idx << ". Processing: " << name << '\n';
+                // std::cout << idx << ". Processing: " << name << '\n';
                 if (dir_entry.path().string().find(".mcmeta") != std::string::npos) {
-                    std::cout << "Skipping Meta: " << name << '\n';
+                    // std::cout << "Skipping Meta: " << name << '\n';
                     continue;
                 }
                 textures.push_back(TextureData{ name, dir_entry.path().string(),  idx });

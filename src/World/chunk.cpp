@@ -13,30 +13,6 @@ Chunk::Chunk(glm::vec2 position)
     blocks.resize(CHUNK_SIZE_X, std::vector<std::vector<BlockData>>(CHUNK_SIZE_Y, std::vector<BlockData>(CHUNK_SIZE_Z, { BlockData({Block::BlockType::AIR}) })));
     test();
 
-    // for (int x = 0; x < CHUNK_SIZE_X; x++) {
-    //     for (int z = 0; z < CHUNK_SIZE_Z; z++) {
-    //         int h = rand() % CHUNK_SIZE_Y - 187;
-
-    //         for (int y = 0; y < h; y++) {
-    //             blocks[x][y][z] = { Block({BlockType::DIRT}) };
-    //         }
-
-    //     }
-    // }
-
-
-
-    // for (int y = 0; y < 5; ++y)
-    // {
-    //     for (int x = 0; x < 5; ++x)
-    //     {
-
-
-    //         std::cout << noise << '\t';
-    //     }
-
-    //     std::cout << '\n';
-    // }
     SimplexNoise gen;
     int32_t incSize = 1000;
     for (int x = 0; x < CHUNK_SIZE_X; x++) {
@@ -60,31 +36,6 @@ Chunk::Chunk(glm::vec2 position)
         }
     }
 
-
-
-
-    // for (int x = 0; x < CHUNK_SIZE_X; x++) {
-    //     for (int y = 0; y < CHUNK_SIZE_Y; y++) {
-    //         for (int z = 0; z < CHUNK_SIZE_Z; z++) {
-    //             // if (y >= 4) {
-    //             //     blocks[x][y][z] = { Block({BlockType::AIR}) };
-    //             // }
-    //             // // else if (x < 4 && y > 2) {
-    //             // //     blocks[x][y][z] = { Block({BlockType::AIR}) };
-    //             // // }
-    //             // else {
-    //             //     blocks[x][y][z] = { Block({BlockType::DIRT}) };
-    //             // }
-
-    //         }
-    //     }
-    // }
-    // blocks[2][150][2] = { Block({BlockType::DIRT}) };
-    // blocks[3][150][3] = { Block({BlockType::DIRT}) };
-    // blocks[2][0][0] = { Block({BlockType::DIRT}) };
-    // blocks[0][0][0] = { Block({BlockType::DIRT}) };
-    // blocks[0][1][0] = { Block({BlockType::DIRT}) };
-    // std::cout << "FINISHED INITIALIZING CHUNK" << std::endl;
 
     createMesh();
 
@@ -183,12 +134,8 @@ void Chunk::createMesh() {
                             icount += 1;
                         }
                         for (int t = 0; t < 8; t++) {
-                            texCoords[baseTex + t] = FaceToRender.uv[t];//faces[f].texCoords[t];A
-                            // printf("%f \n", texCoords[baseTex + t]);
-                            // std::cout << texCoords[baseTex + f * 8 + t] << std::endl;
-
+                            texCoords[baseTex + t] = FaceToRender.uv[t];
                         }
-                        // std::cout << std::endl;
 
 
                         baseVertex += 4 * 3; // 6 faces per block, 4 vertices per face, 3 components per vertex
