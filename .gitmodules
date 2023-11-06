@@ -1,3 +1,11 @@
-[submodule "src/vendor/JSON"]
-	path = src/vendor/JSON
+[submodule "voxel-game/vendor/GLFW"]
+	path = voxel-game/vendor/GLFW
+	url = git@github.com:Clackroe/glfw.git
+[submodule "voxel-game/vendor/JSON"]
+	path = voxel-game/vendor/JSON
 	url = git@github.com:nlohmann/json.git
+
+
+[submodule "voxel-game/vendor/GLM"]
+	path = voxel-game/vendor/GLM
+	url = git@github.com:g-truc/glm.git

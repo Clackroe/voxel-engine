@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="assets">
+      <UniqueIdentifier>{583885F2-44DA-AFC8-2D95-C31C19D63619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Core">
+      <UniqueIdentifier>{81F1C769-6D54-570E-16DA-8FC4021C2391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Graphics">
+      <UniqueIdentifier>{E901C778-D5FA-E5CA-FE2C-CB4FEA84C5D6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Graphics\Render">
+      <UniqueIdentifier>{38804025-A4B7-88BC-ADC1-ECDF1978AFB5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Graphics\Texture">
+      <UniqueIdentifier>{49000368-3525-52E8-5E70-37784AF45006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Player">
+      <UniqueIdentifier>{852C9E19-71FA-911F-5A8E-024646FB6D84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\World">
+      <UniqueIdentifier>{000D30A4-6CCD-ABDA-3508-F557A187F0B6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics">
+      <UniqueIdentifier>{0D564864-F9B8-D708-A23E-10BF8E80A38B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics\Render">
+      <UniqueIdentifier>{DC43BDC8-48A5-9AD6-D112-E1883D73D195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics\Texture">
+      <UniqueIdentifier>{6D38187B-59C7-A144-02E6-B53FEE53B2EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Player">
+      <UniqueIdentifier>{A927B427-95DF-F574-FEE6-CED0EABD9065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\World">
+      <UniqueIdentifier>{A43321B4-109E-D52A-59DC-86D0C585B37F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\misc">
+      <UniqueIdentifier>{28C233CF-148F-8EDA-3DA8-7C8229D4C368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Core\Time.h">
+      <Filter>include\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\core.h">
+      <Filter>include\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Render\Render.h">
+      <Filter>include\Graphics\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Screen.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Shader.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Texture\Texture.h">
+      <Filter>include\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Texture\TexturePacker.h">
+      <Filter>include\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\VertexArray.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Player\camera.h">
+      <Filter>include\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Player\input.h">
+      <Filter>include\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Player\player.h">
+      <Filter>include\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="include\World\Block.h">
+      <Filter>include\World</Filter>
+    </ClInclude>
+    <ClInclude Include="include\World\chunk.h">
+      <Filter>include\World</Filter>
+    </ClInclude>
+    <ClInclude Include="include\World\world.h">
+      <Filter>include\World</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\stb_image\stb_image_write.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Render\Render.cpp">
+      <Filter>src\Graphics\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Screen.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Shader.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Texture\Texture.cpp">
+      <Filter>src\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Texture\TexturePacker.cpp">
+      <Filter>src\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\VertexArray.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player\input.cpp">
+      <Filter>src\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player\player.cpp">
+      <Filter>src\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\Block.cpp">
+      <Filter>src\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\chunk.cpp">
+      <Filter>src\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\world.cpp">
+      <Filter>src\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\stb_image.cpp">
+      <Filter>src\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\stb_image_write.cpp">
+      <Filter>src\misc</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\blocks.json">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="assets\textures.json">
+      <Filter>assets</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textureMap.png">
+      <Filter>assets</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
