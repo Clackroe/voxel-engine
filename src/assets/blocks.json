@@ -76,6 +76,39 @@
       "RIGHT": "oak_planks",
       "FRONT": "oak_planks",
       "BACK": "oak_planks"
+    },
+    "6": {
+      "name": "BEDROCK",
+      "hardness": 1.0,
+      "transparent": false,
+      "TOP": "bedrock",
+      "BOTTOM": "bedrock",
+      "LEFT": "bedrock",
+      "RIGHT": "bedrock",
+      "FRONT": "bedrock",
+      "BACK": "bedrock"
+    },
+    "7": {
+      "name": "SAND",
+      "hardness": 1.0,
+      "transparent": false,
+      "TOP": "sand",
+      "BOTTOM": "sand",
+      "LEFT": "sand",
+      "RIGHT": "sand",
+      "FRONT": "sand",
+      "BACK": "sand"
+    },
+    "8": {
+      "name": "WATER",
+      "hardness": 1.0,
+      "transparent": true,
+      "TOP": "blue_stained_glass",
+      "BOTTOM": "blue_stained_glass",
+      "LEFT": "blue_stained_glass",
+      "RIGHT": "blue_stained_glass",
+      "FRONT": "blue_stained_glass",
+      "BACK": "blue_stained_glass"
     }
   }
 }

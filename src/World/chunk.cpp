@@ -1,5 +1,6 @@
 #include "chunk.h"
 #include <cstdlib> 
+#include "../vendor/FastNoise.h"
 
 
 static float mapRange(std::pair<int, int> a, std::pair<int, int> b, float inVal);
@@ -13,29 +14,114 @@ Chunk::Chunk(glm::vec2 position)
     blocks.resize(CHUNK_SIZE_X, std::vector<std::vector<BlockData>>(CHUNK_SIZE_Y, std::vector<BlockData>(CHUNK_SIZE_Z, { BlockData({Block::BlockType::AIR}) })));
     test();
 
-    SimplexNoise gen;
-    int32_t incSize = 1000;
+    // printf("Generating Chunk\n");
+    // FastNoiseLite noise;
+    // noise.SetFrequency(0.001f);
+    // noise.SetFractalGain(0.07);
+    // noise.SetFractalType(FastNoiseLite::FractalType::FractalType_FBm);
+
+    int seed = 9828763;
+
+    FastNoiseLite noise;
+    noise.SetSeed(seed);
+    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    noise.SetFractalType(FastNoiseLite::FractalType::FractalType_FBm);
+
+    float defFreq = 0.001f;
+    float defAmp = 0.005f;
+
+    noise.SetFrequency(defFreq);
+    noise.SetFractalGain(defAmp);
+
+
+    float perlinFreq = 0.02f;
+    float perlinAmp = 0.02f;
+    FastNoiseLite perlinNoise;
+    perlinNoise.SetFrequency(perlinFreq);
+    perlinNoise.SetFractalGain(perlinAmp);
+    perlinNoise.SetSeed(seed);
+    perlinNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+
+    //Different noise type
+    FastNoiseLite noise2;
+    noise2.SetSeed(seed);
+    noise2.SetNoiseType(FastNoiseLite::NoiseType_Cellular);
+    noise2.SetFractalType(FastNoiseLite::FractalType::FractalType_FBm);
+
+    float defFreq2 = 0.001f;
+    float defAmp2 = 0.005f;
+
+    noise2.SetFrequency(defFreq2);
+    noise2.SetFractalGain(defAmp2);
+
+    FastNoiseLite noise3;
+    noise3.SetSeed(seed);
+    noise3.SetNoiseType(FastNoiseLite::NoiseType_ValueCubic);
+    noise3.SetFractalType(FastNoiseLite::FractalType::FractalType_FBm);
+
+    float defFreq3 = 0.02f;
+    float defAmp3 = 0.03f;
+
+    noise3.SetFrequency(defFreq3);
+    noise3.SetFractalGain(defAmp3);
+
+
+
+    int waterLevel = 85;
+    float blendFactor = 0.3f;
+
+    int offset = 350;
+
     for (int x = 0; x < CHUNK_SIZE_X; x++) {
         for (int z = 0; z < CHUNK_SIZE_Z; z++) {
-            float height = mapRange(std::make_pair(-1, 1), std::make_pair(0, CHUNK_SIZE_Y - 1), gen.fractal(10, (CHUNK_SIZE_X * pos.x + x) / incSize, (CHUNK_SIZE_Z * pos.y + z) / incSize));
-            // float height = SimplexNoise::noise(CHUNK_SIZE_X * pos.x + x, CHUNK_SIZE_Z * pos.y + z);
-            // std::cout << "Height: " << height << std::endl;
-            for (int y = 0; y < height; y++) {
-                if (y < height - 6) {
-                    blocks[x][y][z] = { BlockData({Block::BlockType::STONE}) };
-                    continue;
-                }
-                if (y < height - 1) {
-                    blocks[x][y][z] = { BlockData({ Block::BlockType::DIRT}) };
-                    continue;
-                }
 
 
-                blocks[x][y][z] = { BlockData({Block::BlockType::GRASS}) };
+            float gen = mapRange(std::make_pair(-1, 1), std::make_pair(0, 1), noise.GetNoise((float)(CHUNK_SIZE_Z * pos.y + z + offset), (float)(CHUNK_SIZE_X * pos.x + x + offset)));
+            float perlinGen = mapRange(std::make_pair(-1, 1), std::make_pair(0, 1), perlinNoise.GetNoise((float)(CHUNK_SIZE_Z * pos.y + z + offset), (float)(CHUNK_SIZE_X * pos.x + x + offset)));
+            float noise2Gen = mapRange(std::make_pair(-1, 1), std::make_pair(0, 1), noise2.GetNoise((float)(CHUNK_SIZE_Z * pos.y + z + offset), (float)(CHUNK_SIZE_X * pos.x + x + offset)));
+            float noise3Gen = mapRange(std::make_pair(-1, 1), std::make_pair(0, 1), noise3.GetNoise((float)(CHUNK_SIZE_Z * pos.y + z + offset), (float)(CHUNK_SIZE_X * pos.x + x + offset)));
+
+            // Combine different noise functions (you can experiment with how to blend them)
+            float finalGen = (gen * blendFactor + (perlinGen * blendFactor) + noise2Gen * blendFactor + noise3Gen * blendFactor * 2) / 2.0f;
+
+
+            int height = (int)(finalGen * CHUNK_SIZE_Y) + 20;
+            // float gen = mapRange(std::make_pair(-1, 1), std::make_pair(0, 1), noise.GetNoise((float)z, (float)x));
+            // int height = (int)(gen * CHUNK_SIZE_Y);
+
+            for (int y = 0; y < std::max(waterLevel, height); y++) {
+                if (y < waterLevel && y > height) {
+                    blocks[x][y][z].ID = Block::BlockType::WATER;
+                }
+                else {
+
+                    if (y == 0) {
+                        blocks[x][y][z].ID = Block::BlockType::BEDROCK;
+                    }
+                    else if (y < height - 4) {
+                        blocks[x][y][z].ID = Block::BlockType::STONE;
+                    }
+                    else if (y < height - 1) {
+                        blocks[x][y][z].ID = Block::BlockType::DIRT;
+                    }
+                    else {
+                        // Add variation to the surface
+                        float surfaceVariation = noise.GetNoise((float)z, (float)x) * 0.5f + 0.5f;
+                        if (surfaceVariation > 0.5f) {
+                            blocks[x][y][z].ID = Block::BlockType::GRASS;
+                        }
+
+
+                        else {
+                            blocks[x][y][z].ID = Block::BlockType::GRASS;
+                        }
+                    }
+                }
             }
         }
     }
 
+    // printf("Generating Mesh\n");
 
     createMesh();
 
@@ -70,9 +156,6 @@ void Chunk::createMesh() {
             for (int z = 0; z < CHUNK_SIZE_Z; z++) {
                 //PerBLock
                 if (blocks[x][y][z].ID != 0) { //Air
-                    // int fCursor = 0;
-
-                    // int f = ; // Face to Render
 
                     Block::BlockInfo blockInfo = Block::BlockInfoMap[blocks[x][y][z].ID];
                     for (int f = 0; f < 6; f++) {
@@ -81,37 +164,37 @@ void Chunk::createMesh() {
                         switch (f)
                         {
                         case Block::FaceIndex::TOP:
-                            if (canRender(x, y + 1, z) == -1) {
+                            if (canRender(x, y + 1, z, blocks[x][y][z]) == -1) {
                                 continue;
                             }
                             FaceToRender = Block::TextureMap[blockInfo.TOP];
                             break;
                         case Block::FaceIndex::BOTTOM:
-                            if (canRender(x, y - 1, z) == -1) {
+                            if (canRender(x, y - 1, z, blocks[x][y][z]) == -1) {
                                 continue;
                             }
                             FaceToRender = Block::TextureMap[blockInfo.BOTTOM];
                             break;
                         case Block::FaceIndex::FRONT:
-                            if (canRender(x, y, z + 1) == -1) {
+                            if (canRender(x, y, z + 1, blocks[x][y][z]) == -1) {
                                 continue;
                             }
                             FaceToRender = Block::TextureMap[blockInfo.FRONT];
                             break;
                         case Block::FaceIndex::BACK:
-                            if (canRender(x, y, z - 1) == -1) {
+                            if (canRender(x, y, z - 1, blocks[x][y][z]) == -1) {
                                 continue;
                             }
                             FaceToRender = Block::TextureMap[blockInfo.BACK];
                             break;
                         case Block::FaceIndex::L:
-                            if (canRender(x + 1, y, z) == -1) {
+                            if (canRender(x + 1, y, z, blocks[x][y][z]) == -1) {
                                 continue;
                             }
                             FaceToRender = Block::TextureMap[blockInfo.LEFT];
                             break;
                         case Block::FaceIndex::R:
-                            if (canRender(x - 1, y, z) == -1) {
+                            if (canRender(x - 1, y, z, blocks[x][y][z]) == -1) {
                                 continue;
                             }
                             FaceToRender = Block::TextureMap[blockInfo.RIGHT];
@@ -152,8 +235,8 @@ void Chunk::createMesh() {
 }
 
 
-int Chunk::canRender(int x, int y, int z) {
-    if (x < 0 || y < 0 || z < 0 || x >= CHUNK_SIZE_X || y >= CHUNK_SIZE_Y || z >= CHUNK_SIZE_Z) {
+int Chunk::canRender(int x, int y, int z, BlockData block) {
+    if (x < 0 || y < 0 || z < 0 || x >= CHUNK_SIZE_X || y >= CHUNK_SIZE_Y || z >= CHUNK_SIZE_Z || (block.ID == 8 && blocks[x][y][z].ID == block.ID)) {
         return -2; // Out of bounds, return -1
     }
     else if (Block::BlockInfoMap[blocks[x][y][z].ID].transparent == false) {
@@ -180,13 +263,17 @@ void Chunk::render() {
 }
 
 void Chunk::test() {
-
     unsigned int texture;
     glGenTextures(1, &texture);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
+    GLint swizzleParams[4] = { GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA };
+    glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzleParams);
+
+
     // set the texture wrapping/filtering options (on the currently bound texture object)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    // glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, GL_ONE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -196,11 +283,11 @@ void Chunk::test() {
     unsigned char* data = stbi_load("/home/clack/Documents/SideProjs/voxel-engine/src/assets/textureMap.png", &width, &height, &nrChannels, 0);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    // glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
 
 
-    // glActiveTexture(GL_TEXTURE0);
+    // qexture(GL_TEXTURE0);
 
     // glBindTexture(GL_TEXTURE_2D, texture);
 }

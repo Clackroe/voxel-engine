@@ -17,7 +17,7 @@ class Chunk {
 
     VertexArray* vao;
 
-    int canRender(int x, int y, int z);
+    int canRender(int x, int y, int z, BlockData block);
 
     // void addFace(GLfloat* vertices, GLuint* indices, GLfloat* texCoords, GLint* vcount, GLint* icount, int* baseVertex, int* baseIndex, int* baseTex, int* fCursor, int* x, int* y, int* z, Block::FaceIndex f);
     GLfloat* vertices;

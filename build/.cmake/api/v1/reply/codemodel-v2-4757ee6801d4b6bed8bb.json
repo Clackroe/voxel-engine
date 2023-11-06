@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.12.0"
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "voxel-engine::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-voxel-engine-Debug-4e5fc0c06608863b1377.json",
+					"jsonFile" : "target-voxel-engine-Release-5a3543a89435eb11b04f.json",
 					"name" : "voxel-engine",
 					"projectIndex" : 0
 				}

@@ -13,6 +13,9 @@ namespace Block {
         DIRT = 3,
         COBBLESTONE = 4,
         OAK_PLANKS = 5,
+        BEDROCK = 6,
+        SAND = 7,
+        WATER = 8,
     };
 
     struct TextureFormat {

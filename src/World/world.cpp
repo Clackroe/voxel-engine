@@ -7,6 +7,8 @@ World::World(Player* plyr)
     glm::vec3 one = { 0.0f, 0.0f, 0.0f };
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 
@@ -17,10 +19,10 @@ World::World(Player* plyr)
     printf("Done\n");
     Block::loadBlockInfo();
 
-
-    int w = 8;
-    for (int i = 0; i < w;i++) {
-        for (int j = 0; j < w; j++) {
+    printf("Generating World...\n");
+    int w = 25;
+    for (int i = -(w / 2); i < w / 2;i++) {
+        for (int j = -(w / 2); j < w / 2; j++) {
             chunk.push_back(new Chunk(glm::vec2(i, j)));
 
         }
@@ -38,6 +40,14 @@ World::~World() {
 }
 
 
+void World::update() {
+
+    Renderer::BLOCK->setMat4("view", player->cam->getViewMatrix());
+    player->processInput();
+
+
+}
+
 void World::render() {
 
 
@@ -49,10 +59,3 @@ void World::render() {
 
 }
 
-void World::update() {
-
-    Renderer::BLOCK->setMat4("view", player->cam->getViewMatrix());
-    player->processInput();
-
-
-}

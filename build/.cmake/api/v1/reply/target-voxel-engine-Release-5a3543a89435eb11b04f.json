@@ -87,7 +87,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g"
+					"fragment" : "-O3 -DNDEBUG"
 				}
 			],
 			"includes" : 
@@ -108,7 +108,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g"
+					"fragment" : "-O3 -DNDEBUG"
 				}
 			],
 			"includes" : 
@@ -135,9 +135,9 @@
 				24,
 				26,
 				28,
-				31,
-				33,
-				35
+				32,
+				34,
+				36
 			]
 		}
 	],
@@ -147,7 +147,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-g",
+				"fragment" : "-O3 -DNDEBUG",
 				"role" : "flags"
 			},
 			{
@@ -491,9 +491,10 @@
 				27,
 				29,
 				30,
-				32,
-				34,
-				36
+				31,
+				33,
+				35,
+				37
 			]
 		},
 		{
@@ -514,9 +515,9 @@
 				24,
 				26,
 				28,
-				31,
-				33,
-				35
+				32,
+				34,
+				36
 			]
 		}
 	],
@@ -689,6 +690,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "src/utils/FileUtils.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/vendor/FastNoise.h",
 			"sourceGroupIndex" : 0
 		},
 		{
