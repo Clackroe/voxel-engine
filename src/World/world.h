@@ -1,3 +1,4 @@
+#pragma once
 #include <fstream>
 #include <glad/glad.h>
 #include "../utils/FileUtils.h"
@@ -12,6 +13,7 @@
 #include "../Graphics/VertexArray.h"
 // #include "Block.h"
 #include "../Graphics/Render/Render.h"
+#include "chunk.h"
 class World {
 
 public:
@@ -21,11 +23,16 @@ public:
     // Block* blocks[2];
     // Block* block;
 
-    Shader* SHADER_PROGRAM;
     Player* player;
-    void render(float deltaTime);
-    void update(float deltaTime);
-    VertexArray* vao;
+    void render();
+    void update();
+
+    std::vector<Chunk*> chunk;
+
+public:
+
+
+
 
 
 

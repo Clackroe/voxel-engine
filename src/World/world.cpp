@@ -1,37 +1,61 @@
 #include "world.h"
+#include "../Graphics/Texture/Texture.h"
 
 World::World(Player* plyr)
 {
     player = plyr;
     glm::vec3 one = { 0.0f, 0.0f, 0.0f };
 
-    // block = new Block(0.0f, 0.0f, 0.0f);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
+    printf("Generate\n");
+    Texture::GENERATE_DATA();
+    printf("Load\n");
+    Texture::LOAD_DATA();
+    printf("Done\n");
+    Block::loadBlockInfo();
+
+    printf("Generating World...\n");
+    int w = 25;
+    for (int i = -(w / 2); i < w / 2;i++) {
+        for (int j = -(w / 2); j < w / 2; j++) {
+            chunk.push_back(new Chunk(glm::vec2(i, j)));
+
+        }
+    }
+
 }
 
 World::~World() {
+    for (auto c : chunk)
+    {
+        delete c;
+    }
+    chunk.clear();
 
 }
 
 
-void World::render(float deltaTime) {
+void World::update() {
+
+    Renderer::BLOCK->setMat4("view", player->cam->getViewMatrix());
+    player->processInput();
 
 
-    // block->render(player->cam->getViewMatrix());
-    // Block* block2 = new Block({ 0.0, 1.0, 0.0 });
-    // block2->render(player->cam->getViewMatrix());
-
-
-    Renderer::renderBlock({ 0.0f, 0.0f, 0.0f });
-    Renderer::renderBlock({ 1.0f, 0.0f, 0.0f });
-    Renderer::renderBlock({ 0.0f, 1.0f, 0.0f });
-    // blocks[0]->render();
-    // vao->render();
-    // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void World::update(float deltaTime) {
+void World::render() {
 
-    player->processInput(deltaTime);
+
+    for (Chunk* c : chunk)
+    {
+        c->render();
+
+    }
 
 }
+

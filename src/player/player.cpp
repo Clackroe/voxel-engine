@@ -1,50 +1,60 @@
 #include "player.h"
 
 
-Player::Player(Screen* scr, Input* inp) {
+Player::Player(Screen* scr) {
     screen = scr;
-    input = inp;
-    cam = new Camera(0.0f, 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-    Renderer* rnd = new Renderer(cam);
+    // input = inp;
+    cam = new Camera(0.0f, 200.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+    rnd = new Renderer();
 
 
 }
+Player::~Player() {
+    delete cam;
+    delete rnd;
+}
 
 void Player::update() {
-
+    processInput();
 }
 
 void Player::render() {
 }
 
 
-void Player::processInput(float deltaTime) {
+void Player::processInput() {
 
-    processKeyboard(deltaTime);
     processMouseLook();
+    processKeyboard();
 }
 
 void Player::processMouseLook() {
 
-
-    std::pair<float, float> offsets = input->getMouseOffets();
-    cam->processMouseInput(offsets.first, offsets.second);
-
-
+    cam->processMouseInput();
 }
 
-void Player::processKeyboard(float deltaTime) {
+void Player::processKeyboard() {
 
-    std::set<int> keys = input->getKey();
+    if (Input::isKeyPressed(GLFW_KEY_W)) {
+        cam->processKeyboardInput(FORWARD);
+    }
+    if (Input::isKeyPressed(GLFW_KEY_S)) {
+        cam->processKeyboardInput(BACKWARD);
+    }
+    if (Input::isKeyPressed(GLFW_KEY_A)) {
+        cam->processKeyboardInput(LEFT);
+    }
+    if (Input::isKeyPressed(GLFW_KEY_D)) {
+        cam->processKeyboardInput(RIGHT);
+    }
+    if (Input::isKeyPressed(GLFW_KEY_SPACE)) {
+        cam->processKeyboardInput(UP);
+    }
+    if (Input::isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+        cam->processKeyboardInput(DOWN);
+    }
+    else if (Input::isKeyPressed(GLFW_KEY_ESCAPE)) {
+        glfwSetWindowShouldClose(screen->window, true);
+    }
 
-    // std::cout << keys.count(FORWARD) << std::endl;
-
-    if (keys.find(FORWARD) != keys.end())
-        cam->processKeyboardInput(FORWARD, deltaTime);
-    if (keys.find(BACKWARD) != keys.end())
-        cam->processKeyboardInput(BACKWARD, deltaTime);
-    if (keys.find(LEFT) != keys.end())
-        cam->processKeyboardInput(LEFT, deltaTime);
-    if (keys.find(RIGHT) != keys.end())
-        cam->processKeyboardInput(RIGHT, deltaTime);
 }

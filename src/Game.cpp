@@ -1,26 +1,23 @@
-#include "Game.h"
-#include <iostream>
 
-Input* inpRef;
-void mouse_update(GLFWwindow* window, double xPosIn, double yPosIn);
+#include "Game.h"
+
+float Time::deltaTime;
+float Time::lastFrame;
 
 Game::Game(int SCR_WIDTH, int SCR_HEIGHT, const char* title)
-    : screen(SCR_WIDTH, SCR_HEIGHT, title), input(&screen), player(&screen, &input)
+    : screen(SCR_WIDTH, SCR_HEIGHT, title), player(&screen)
 {
-
-
-    deltaTime = 0.0f;
-    lastFrame = 0.0f;
-    inpRef = &input;
+    Time::deltaTime = 0.0f;
+    Time::lastFrame = 0.0f;
 
     world = new World(&player);
 
-    glfwSetCursorPosCallback(screen.window, mouse_update);
 
 }
 
 Game::~Game()
 {
+    delete world;
 }
 
 bool Game::isRunning() {
@@ -29,19 +26,17 @@ bool Game::isRunning() {
 
 void Game::update()
 {
+    float currentFrame = static_cast<float>(glfwGetTime());
+    Time::deltaTime = currentFrame - Time::lastFrame;
+    Time::lastFrame = currentFrame;
+
+
     screen.Update();
+    player.update();
+    world->update();
 
 }
 void Game::render() {
-    float currentFrame = static_cast<float>(glfwGetTime());
-    deltaTime = currentFrame - lastFrame;
-    lastFrame = currentFrame;
-
-    world->update(deltaTime);
     screen.Clear();
-    world->render(deltaTime);
-}
-
-void mouse_update(GLFWwindow* window, double xPosIn, double yPosIn) {
-    inpRef->setCurrentMousePos(xPosIn, yPosIn);
+    world->render();
 }

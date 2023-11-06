@@ -1,6 +1,6 @@
 #pragma once
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "../Core/core.h"
+#include "../player/input.h"
 
 class Screen {
 public:
@@ -14,6 +14,7 @@ public:
     void Update();
     void Clear();
 
+
     GLFWwindow* window;
 
 private:
@@ -21,5 +22,6 @@ private:
     const char* window_title;
     void initOpenGL();
     void processInput();
+    void initCallbacks();
 
 };

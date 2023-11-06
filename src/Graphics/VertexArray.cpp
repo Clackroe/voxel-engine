@@ -1,5 +1,8 @@
 #include "VertexArray.h"
 
+VertexArray::~VertexArray() {
+
+}
 
 VertexArray::VertexArray(GLfloat* vertices, GLuint* indices, GLsizei vcount, GLsizei icount) {
     this->count = icount;
@@ -19,10 +22,15 @@ VertexArray::VertexArray(GLfloat* vertices, GLuint* indices, GLfloat* normals, G
 
 GLuint VertexArray::compile(GLfloat* vertices, GLuint* indices, GLsizei vcount, GLsizei icount) {
     return compile(vertices, indices, nullptr, nullptr, vcount, icount);
+    delete[] vertices;
+    delete[] indices;
 }
 
 GLuint VertexArray::compile(GLfloat* vertices, GLuint* indices, GLfloat* tcs, GLsizei vcount, GLsizei icount) {
     return compile(vertices, indices, nullptr, tcs, vcount, icount);
+    delete[] vertices;
+    delete[] indices;
+    delete[] tcs;
 }
 
 
@@ -63,6 +71,20 @@ GLuint VertexArray::compile(GLfloat* vertices, GLuint* indices, GLfloat* normals
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     glBindVertexArray(0);
+
+    // if (vertices) {
+    //     delete[] vertices;
+    // }
+    // if (indices) {
+    //     delete[] indices;
+    // }
+    // if (normals) {
+    //     delete[] normals;
+    // }
+    // if (tcs) {
+    //     delete[] tcs;
+    // }
+
 
     return vao;
 }

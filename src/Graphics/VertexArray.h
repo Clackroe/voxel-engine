@@ -17,5 +17,6 @@ public:
     VertexArray(GLfloat* vertices, GLuint* indices, GLfloat* tcs, GLsizei vcount, GLsizei icount);
     VertexArray(GLfloat* vertices, GLuint* indices, GLfloat* normals, GLfloat* tcs, GLsizei vcount, GLsizei icount);
     void render();
+    ~VertexArray();
 
 };

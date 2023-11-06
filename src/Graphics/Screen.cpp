@@ -4,27 +4,30 @@
 int Screen::SCR_WIDTH;
 int Screen::SCR_HEIGHT;
 
+static void keyCallback();
 
 Screen::Screen(int SCR_WIDTH, int SCR_HEIGHT, const char* title)
 {
     Screen::SCR_WIDTH = SCR_WIDTH;
     Screen::SCR_HEIGHT = SCR_HEIGHT;
-    this->window_title = title;
+    window_title = title;
 
     glfwInit();
 
-    this->window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, window_title, NULL, NULL);
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, window_title, NULL, NULL);
     if (this->window == NULL) {
         std::cout << "Failed to create GLFW Window" << std::endl;
         glfwTerminate();
     }
 
     initOpenGL();
+
+    initCallbacks();
 }
 
 Screen::~Screen()
 {
-    glfwDestroyWindow(this->window);
+    glfwDestroyWindow(window);
     //TODO: Destroy any additionaly added things (Shaders, textures, etc)
 }
 
@@ -68,9 +71,15 @@ void Screen::processInput()
 void Screen::Clear()
 {
     processInput();
+    glClearColor(0.15f, 0.4f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void Screen::initCallbacks() {
+    glfwSetKeyCallback(window, Input::keyCallback);
+    glfwSetCursorPosCallback(window, Input::mouseCallback);
+    glfwSetMouseButtonCallback(window, Input::mouseButtonCallback);
+}
 
 void Screen::initOpenGL()
 {
@@ -78,9 +87,9 @@ void Screen::initOpenGL()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    glfwMakeContextCurrent(this->window);
+    glfwMakeContextCurrent(window);
 
-    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     // glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

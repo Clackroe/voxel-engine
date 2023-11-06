@@ -1,41 +1,32 @@
 #pragma once
 #include <utility>
+#include "../Core/core.h"
 #include "../Graphics/Screen.h"
 #include <set>
 #include <map>
 #include <glm/glm.hpp>
 
-enum input_keys {
-    FORWARD_KEY,
-    BACKWARD_KEY,
-    LEFT_KEY,
-    RIGHT_KEY
-};
 
 
-class Input {
+namespace Input {
 
 
-public:
+    extern double xPos, yPos;
+    inline bool firstMouse;
+    inline float lastX;
+    inline float lastY;
 
-    std::map<int, int> keyBinds;
-    Input(Screen* scr);
-    Screen* screen;
-    bool firstMouse;
+    inline bool keyPressed[GLFW_KEY_LAST] = {};
+    inline bool keyBeginPressData[GLFW_KEY_LAST] = {};
+    inline bool mousePressed[GLFW_MOUSE_BUTTON_LAST] = {};
+    inline bool mouseBeginPressData[GLFW_MOUSE_BUTTON_LAST] = {};
 
-    float lastX;
-    float lastY;
+    void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    void mouseCallback(GLFWwindow* window, double xPos, double yPos);
+    void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
-    void setCurrentMousePos(double xPos, double yPos);
-
-
-    std::pair<float, float> getMouseOffets();
-    std::set<int> getKey();
-
-private:
-    double xPos, yPos;
-
-    // void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn)
-
-
+    bool isKeyPressed(int key);
+    bool keyBeginPress(int key);
+    bool isMousePressed(int button);
+    bool mouseBeginPress(int button);
 };
