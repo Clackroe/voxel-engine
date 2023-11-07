@@ -1,13 +1,12 @@
-[submodule "voxel-game/vendor/GLFW"]
-	path = voxel-game/vendor/GLFW
-	url = git@github.com:Clackroe/glfw.git
-	update = merge
-[submodule "voxel-game/vendor/JSON"]
-	path = voxel-game/vendor/JSON
-	url = git@github.com:nlohmann/json.git
-
-
 [submodule "voxel-game/vendor/GLM"]
 	path = voxel-game/vendor/GLM
 	url = git@github.com:g-truc/glm.git
-	update = merge
+	branch = 0.9.9.8
+[submodule "voxel-game/vendor/GLFW"]
+	path = voxel-game/vendor/GLFW
+	url = git@github.com:Clackroe/glfw.git
+	branch = master
+[submodule "voxel-game/vendor/JSON"]
+	path = voxel-game/vendor/JSON
+	url = git@github.com:nlohmann/json.git
+	branch = v3.11.2
