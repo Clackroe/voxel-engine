@@ -14,10 +14,23 @@
 
 ## Build [REQUIRED]
 ### Note: Currently include paths may be bugged on Linux. You may need to change them when building
-- make sure you have [premake5](https://premake.github.io/download) installed
-- Use premake for however you will be building (Visual studio / make examples below)
+- This project uses [premake5](https://premake.github.io/download) check their docs for more information
+- Use the bat file (windows), and the bash file (Linux) to generate the project files.
+### Generate help message
+```CMD
+   ./build.bat
+```
 ```bash
-  premake5 [vs2022 | gmake2]
+   ./build.sh
+```
+![image](https://github.com/Clackroe/voxel-engine/assets/65436489/f905285b-aea9-42f2-b8f2-f25864d82976)
+
+### Generate files
+```CMD
+   ./build.bat vs2022
+```
+```bash
+   ./build.sh gmake2
 ```
 
 ## Build with whatever system you are using! Have fun!
