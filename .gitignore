@@ -461,3 +461,4 @@ FodyWeavers.xsd
 *.exe
 *.out
 *.app
+!premake5.exe
