@@ -45,7 +45,7 @@ namespace Block {
         GLfloat texCoords[2 * 4];
     };
 
-    inline float VERT_OFFSET = 0.5f;
+    inline float VERT_OFFSET = 1.0f;
 
     enum FaceIndex {
         FRONT = 0,
@@ -62,10 +62,10 @@ namespace Block {
         {
             // pos
             {
-                -VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 0
-                 VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 1
+                0 * -VERT_OFFSET,0 * -VERT_OFFSET,  VERT_OFFSET, // 0
+                 VERT_OFFSET,0 * -VERT_OFFSET,  VERT_OFFSET, // 1
                  VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 2
-                -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 3
+                0 * -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 3
             },
 
             // indices
@@ -91,10 +91,10 @@ namespace Block {
         {
             // pos
             {
-                 VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 7
-                -VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 4
-                -VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 5
-                 VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 6
+                 VERT_OFFSET,0 * -VERT_OFFSET,0 * -VERT_OFFSET, // 7
+                0 * -VERT_OFFSET,0 * -VERT_OFFSET,0 * -VERT_OFFSET, // 4
+                0 * -VERT_OFFSET,  VERT_OFFSET,0 * -VERT_OFFSET, // 5
+                 VERT_OFFSET,  VERT_OFFSET,0 * -VERT_OFFSET, // 6
             },
 
             // indices
@@ -120,10 +120,10 @@ namespace Block {
         {
             // pos
             {
-                 -VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 8
-                 -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 11
+                 0 * -VERT_OFFSET,  VERT_OFFSET,0 * -VERT_OFFSET, // 8
+                 0 * -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 11
                   VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 10
-                  VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 9
+                  VERT_OFFSET,  VERT_OFFSET,0 * -VERT_OFFSET, // 9
             },
 
             // indices
@@ -149,10 +149,10 @@ namespace Block {
         {
             // pos
             {
-                  -VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 12
-                   VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 13
-                   VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 14
-                  -VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 15
+                  0 * -VERT_OFFSET,0 * -VERT_OFFSET,0 * -VERT_OFFSET, // 12
+                   VERT_OFFSET,0 * -VERT_OFFSET,0 * -VERT_OFFSET, // 13
+                   VERT_OFFSET,0 * -VERT_OFFSET,  VERT_OFFSET, // 14
+                  0 * -VERT_OFFSET,0 * -VERT_OFFSET,  VERT_OFFSET, // 15
             },
 
             // indices
@@ -178,10 +178,10 @@ namespace Block {
         {
             // pos
             {
-                  -VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 16
-                  -VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 17
-                  -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 18
-                  -VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 19
+                  0 * -VERT_OFFSET,0 * -VERT_OFFSET,0 * -VERT_OFFSET, // 16
+                  0 * -VERT_OFFSET,0 * -VERT_OFFSET,  VERT_OFFSET, // 17
+                  0 * -VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 18
+                  0 * -VERT_OFFSET,  VERT_OFFSET,0 * -VERT_OFFSET, // 19
             },
 
             // indices
@@ -207,9 +207,9 @@ namespace Block {
         {
             // pos
             {
-                   VERT_OFFSET, -VERT_OFFSET,  VERT_OFFSET, // 21
-                   VERT_OFFSET, -VERT_OFFSET, -VERT_OFFSET, // 20
-                   VERT_OFFSET,  VERT_OFFSET, -VERT_OFFSET, // 23
+                   VERT_OFFSET,0 * -VERT_OFFSET,  VERT_OFFSET, // 21
+                   VERT_OFFSET,0 * -VERT_OFFSET,0 * -VERT_OFFSET, // 20
+                   VERT_OFFSET,  VERT_OFFSET,0 * -VERT_OFFSET, // 23
                    VERT_OFFSET,  VERT_OFFSET,  VERT_OFFSET, // 22
             },
 

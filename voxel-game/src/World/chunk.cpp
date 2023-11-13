@@ -5,11 +5,30 @@
 
 static float mapRange(std::pair<int, int> a, std::pair<int, int> b, float inVal);
 
+uint32_t BASE_17_DEPTH = 17;
+uint32_t BASE_17_WIDTH = 17;
+uint32_t BASE_17_HEIGHT = 289;
+
+uint32_t compressVec3(uint32_t x, uint32_t y, uint32_t z) {
+
+    uint32_t data = (x * BASE_17_DEPTH) + (y * BASE_17_HEIGHT) + z; // Compress
+
+	//printf("Data: %d\n", data);
+
+	////Decompress
+	//printf("Z: %d\n", data % BASE_17_WIDTH);
+	//printf("X: %d\n", (data % BASE_17_HEIGHT) / BASE_17_DEPTH);
+	//printf("Y: %d\n", (data - (x * BASE_17_DEPTH) - z) / BASE_17_HEIGHT);
+
+    return data; 
+}
+
 Chunk::Chunk(glm::vec2 position)
 {
     this->pos = position;
 
-    // std::cout << "INITIALIZING CHUNK" << std::endl;
+
+     std::cout << "INITIALIZING CHUNK" << std::endl;
 
     blocks.resize(CHUNK_SIZE_X, std::vector<std::vector<BlockData>>(CHUNK_SIZE_Y, std::vector<BlockData>(CHUNK_SIZE_Z, { BlockData({Block::BlockType::AIR}) })));
     test();
@@ -121,7 +140,7 @@ Chunk::Chunk(glm::vec2 position)
         }
     }
 
-    // printf("Generating Mesh\n");
+     printf("Generating Mesh\n");
 
     createMesh();
 
@@ -139,7 +158,7 @@ Chunk::~Chunk()
 void Chunk::createMesh() {
 
     // Allocate memory for vertices, normals, and other atr(texture coordinates, and indices)
-    vertices = new GLfloat[CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 6 * 4 * 3];  // 3 components per vertex, 6 faces per block
+    vertices = new GLuint[CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 6 * 4];  // 3 components per vertex, 6 faces per block
     indices = new GLuint[CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 6 * 6];     // 6 vertices per face, 6 faces per block
     texCoords = new GLfloat[CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 8 * 6];
 
@@ -150,7 +169,7 @@ void Chunk::createMesh() {
     int baseIndex = 0;
     int baseTex = 0;
 
-    // std::cout << "Creating Mesh" << std::endl;
+    std::cout << "Creating Mesh" << std::endl;
     for (int x = 0; x < CHUNK_SIZE_X; x++) {
         for (int y = 0; y < CHUNK_SIZE_Y; y++) {
             for (int z = 0; z < CHUNK_SIZE_Z; z++) {
@@ -207,21 +226,28 @@ void Chunk::createMesh() {
                         for (int v = 0; v < 4; v++) { // Loop through verticies
 
                             int off = v * 3;
-                            vertices[baseVertex + off] = Block::faces[f].vertices[off] + (x * Block::VERT_OFFSET * 2);
-                            vertices[baseVertex + off + 1] = Block::faces[f].vertices[off + 1] + (y * Block::VERT_OFFSET * 2);
-                            vertices[baseVertex + off + 2] = Block::faces[f].vertices[off + 2] + (z * Block::VERT_OFFSET * 2);
+                            uint32_t xl = Block::faces[f].vertices[off] + (x );
+                            uint32_t yl = Block::faces[f].vertices[off + 1] + (y);
+                            uint32_t zl  = Block::faces[f].vertices[off + 2] + (z);
+
+                            vertices[baseVertex + v] = compressVec3(xl, yl, zl);
+                            
                             vcount += 3;
                         }
                         for (int i = 0; i < 6; i++) { //Create indices
-                            indices[baseIndex + i] = Block::faces[f].indices[i] + (0) + baseVertex / 3;
+                            indices[baseIndex + i] = Block::faces[f].indices[i] + baseVertex;
+                            //printf(std::to_string(indices[baseIndex + i]).append( " ").c_str());
                             icount += 1;
                         }
+                        //printf("\n");
                         for (int t = 0; t < 8; t++) {
                             texCoords[baseTex + t] = FaceToRender.uv[t];
+                            //printf(std::to_string(texCoords[baseTex + t]).append(" ").c_str());
                         }
+                        //printf("\n");
 
 
-                        baseVertex += 4 * 3; // 6 faces per block, 4 vertices per face, 3 components per vertex
+                        baseVertex += 4; // 6 faces per block, 4 vertices per face, 3 components per vertex
                         baseIndex += 6; // 6 faces per block, 6 indices per fac
                         baseTex += 8;
 
@@ -230,7 +256,37 @@ void Chunk::createMesh() {
             }
         }
     }
-    vao = new VertexArray(vertices, indices, texCoords, vcount, icount);
+    //vao = new VertexArray(vertices, indices, texCoords, vcount, icount);
+
+    count = icount;
+    GLuint vbo, tbo;
+    glGenVertexArrays(1, &vao2);
+    glBindVertexArray(vao2);
+
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, vcount * sizeof(GLuint), vertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribIPointer(0, 1, GL_UNSIGNED_INT, sizeof(GLuint), 0);
+    //glVertexAttribPointer(0, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(GLuint), (void*)0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glGenBuffers(1, &tbo);
+    glBindBuffer(GL_ARRAY_BUFFER, tbo);
+    glBufferData(GL_ARRAY_BUFFER, vcount * sizeof(GLfloat), texCoords, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glGenBuffers(1, &ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, icount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    glBindVertexArray(0);
+
+
 
 }
 
@@ -258,11 +314,17 @@ void Chunk::render() {
     Renderer::BLOCK->setInt("tex", 0);
 
 
-    vao->render();
-    // std::cout << "TEst" << std::endl;
+    //vao->render();
+    glBindVertexArray(vao2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+     //std::cout << "TEst" << std::endl;
 }
 
 void Chunk::test() {
+    //printf("Pre Image");
     unsigned int texture;
     glGenTextures(1, &texture);
     glActiveTexture(GL_TEXTURE0);
@@ -285,6 +347,8 @@ void Chunk::test() {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     // glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
+
+    //printf("Post Image");
 
 
     // qexture(GL_TEXTURE0);

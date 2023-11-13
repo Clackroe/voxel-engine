@@ -57,7 +57,7 @@ void Screen::Update()
     glfwSwapBuffers(this->window);
     GLenum err;
     while ((err = glGetError()) != GL_NO_ERROR) {
-        // std::cerr << err << std::endl;
+         std::cerr << err << std::endl;
     }
 }
 
