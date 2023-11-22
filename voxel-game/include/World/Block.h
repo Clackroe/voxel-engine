@@ -19,7 +19,8 @@ namespace Block {
     };
 
     struct TextureFormat {
-        GLfloat uv[8];
+        int ID;
+        //GLfloat uv[8];
     };
 
     struct BlockInfo {
@@ -34,6 +35,10 @@ namespace Block {
     };
     extern std::unordered_map<std::string, TextureFormat> TextureMap;
     inline std::unordered_map<BlockType, BlockInfo> BlockInfoMap;
+    
+    extern std::vector<float> textureUVS;
+
+
     void loadBlockInfo();
 
 

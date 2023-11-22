@@ -8,6 +8,12 @@ static float mapRange(std::pair<int, int> a, std::pair<int, int> b, float inVal)
 uint32_t BASE_17_DEPTH = 17;
 uint32_t BASE_17_WIDTH = 17;
 uint32_t BASE_17_HEIGHT = 289;
+uint32_t POSITION_MASK = 0x1FFFF;
+
+uint32_t TEX_ID_MASK = 0x1FFE0000;
+uint32_t TEX_INDEX_MASK = 0xE0000000;
+
+
 
 uint32_t compressVec3(uint32_t x, uint32_t y, uint32_t z) {
 
@@ -23,12 +29,19 @@ uint32_t compressVec3(uint32_t x, uint32_t y, uint32_t z) {
     return data; 
 }
 
+uint32_t compressTexCoords(int ID, int index) {
+    
+    uint32_t data = (ID << 17) & TEX_ID_MASK | ((index << 29) & TEX_INDEX_MASK);
+    return data;
+
+}
+
 Chunk::Chunk(glm::vec2 position)
 {
     this->pos = position;
 
 
-     std::cout << "INITIALIZING CHUNK" << std::endl;
+     //std::cout << "INITIALIZING CHUNK" << std::endl;
 
     blocks.resize(CHUNK_SIZE_X, std::vector<std::vector<BlockData>>(CHUNK_SIZE_Y, std::vector<BlockData>(CHUNK_SIZE_Z, { BlockData({Block::BlockType::AIR}) })));
     test();
@@ -140,7 +153,7 @@ Chunk::Chunk(glm::vec2 position)
         }
     }
 
-     printf("Generating Mesh\n");
+     //printf("Generating Mesh\n");
 
     createMesh();
 
@@ -160,7 +173,7 @@ void Chunk::createMesh() {
     // Allocate memory for vertices, normals, and other atr(texture coordinates, and indices)
     vertices = new GLuint[CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 6 * 4];  // 3 components per vertex, 6 faces per block
     indices = new GLuint[CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 6 * 6];     // 6 vertices per face, 6 faces per block
-    texCoords = new GLfloat[CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 8 * 6];
+    texCoords = new GLfloat[CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z * 4 * 6];
 
     GLint vcount = 0;
     GLint icount = 0;
@@ -169,7 +182,7 @@ void Chunk::createMesh() {
     int baseIndex = 0;
     int baseTex = 0;
 
-    std::cout << "Creating Mesh" << std::endl;
+    //std::cout << "Creating Mesh" << std::endl;
     for (int x = 0; x < CHUNK_SIZE_X; x++) {
         for (int y = 0; y < CHUNK_SIZE_Y; y++) {
             for (int z = 0; z < CHUNK_SIZE_Z; z++) {
@@ -230,7 +243,7 @@ void Chunk::createMesh() {
                             uint32_t yl = Block::faces[f].vertices[off + 1] + (y);
                             uint32_t zl  = Block::faces[f].vertices[off + 2] + (z);
 
-                            vertices[baseVertex + v] = compressVec3(xl, yl, zl);
+                            vertices[baseVertex + v] = compressVec3(xl, yl, zl) | compressTexCoords(FaceToRender.ID, v);
                             
                             vcount += 3;
                         }
@@ -240,16 +253,16 @@ void Chunk::createMesh() {
                             icount += 1;
                         }
                         //printf("\n");
-                        for (int t = 0; t < 8; t++) {
-                            texCoords[baseTex + t] = FaceToRender.uv[t];
-                            //printf(std::to_string(texCoords[baseTex + t]).append(" ").c_str());
-                        }
+                        //for (int t = 0; t < 4; t++) {
+                        //    texCoords[baseTex + t] = FaceToRender.ID + t;//FaceToRender.uv[t];
+                        //    //printf(std::to_string(texCoords[baseTex + t]).append(" ").c_str());
+                        //}
                         //printf("\n");
 
 
                         baseVertex += 4; // 6 faces per block, 4 vertices per face, 3 components per vertex
                         baseIndex += 6; // 6 faces per block, 6 indices per fac
-                        baseTex += 8;
+                        //baseTex += 4;
 
                     }
                 }
@@ -259,7 +272,7 @@ void Chunk::createMesh() {
     //vao = new VertexArray(vertices, indices, texCoords, vcount, icount);
 
     count = icount;
-    GLuint vbo, tbo;
+    GLuint vbo;
     glGenVertexArrays(1, &vao2);
     glBindVertexArray(vao2);
 
@@ -272,12 +285,12 @@ void Chunk::createMesh() {
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glGenBuffers(1, &tbo);
+    /*glGenBuffers(1, &tbo);
     glBindBuffer(GL_ARRAY_BUFFER, tbo);
     glBufferData(GL_ARRAY_BUFFER, vcount * sizeof(GLfloat), texCoords, GL_STATIC_DRAW);
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -312,6 +325,7 @@ void Chunk::render() {
     Renderer::BLOCK->setMat4("model", position);
     // GLuint tex0 = glGetUniformLocation(Renderer::BLOCK->ID, "tex");
     Renderer::BLOCK->setInt("tex", 0);
+    Renderer::BLOCK->setInt("t_TexCoords", 1);
 
 
     //vao->render();

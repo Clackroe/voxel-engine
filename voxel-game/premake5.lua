@@ -43,7 +43,7 @@ project "voxel-game"
             "VOXEL_PLATFORM_WINDOWS"
         }
     filter "configurations:Debug"
-        buildoptions "/MTd"
+        buildoptions "/MTd"`
         defines "VOXEL_DEBUG"
         runtime "Debug"
         symbols "on"

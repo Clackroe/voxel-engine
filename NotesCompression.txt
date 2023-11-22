@@ -1,0 +1,8 @@
+Unsigned 32 Bit Integer | Layout 1 Vertex Shader
+
+00000000000000011111111111111111 | 17 -> 0x1FFFF 	Position
+00011111111111100000000000000000 | 12 -> 0x1FFE0000	TextureID
+11100000000000000000000000000000 | 3  -> 0xE0000000	TexIndex (Only require 2 Bits, but Yaknow)
+
+
+Unsigned 32 Bit Integer | Layout 2 Vertex Shader

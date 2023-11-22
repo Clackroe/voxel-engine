@@ -22,6 +22,8 @@ RB = LB + R     TB = BB + R
 */
 
 std::unordered_map<std::string, Block::TextureFormat> Block::TextureMap;
+std::vector<float> Block::textureUVS;
+
 namespace Texture {
     namespace TexturePacker {
 
@@ -113,27 +115,30 @@ namespace Texture {
 
         void writeToFile() {
             json j;
-            int idx = 1;
-            j["Blocks"]["NULL_BLOCK"] = {
-                {"UV",{
-                    0.0f, 0.0f,
-                    0.0f, 0.0f,
-                    0.0f, 0.0f,
-                    0.0f, 0.0f
-                    }
-                }
-            };
-            j["Blocks"]["Air"] = {
-                {"UV",{
-                    0.0f, 0.0f,
-                    0.0f, 0.0f,
-                    0.0f, 0.0f,
-                    0.0f, 0.0f
-                    }
-                }
-            };
+            //int idx = 1;
+            //j["Blocks"]["NULL_BLOCK"] = {
+            //    {"ID", -1},
+            //    {"UV",{
+            //        0.0f, 0.0f,
+            //        0.0f, 0.0f,
+            //        0.0f, 0.0f,
+            //        0.0f, 0.0f
+            //        }
+            //    }
+            //};
+            //j["Blocks"]["Air"] = {
+            //    {"ID", 0},
+            //    {"UV",{
+            //        0.0f, 0.0f,
+            //        0.0f, 0.0f,
+            //        0.0f, 0.0f,
+            //        0.0f, 0.0f
+            //        }
+            //    }
+            //};
             for (TextureData& tex : textures) {
                 j["Blocks"][tex.name] = {
+                    {"ID", tex.index},
                     {"UV",{
                         tex.uv_TL.x, tex.uv_TL.y,
                         tex.uv_TR.x, tex.uv_TR.y,
@@ -164,18 +169,42 @@ namespace Texture {
 
             if (j.find("Blocks") != j.end()) {
                 json blocks = j["Blocks"];
+                //Block::textureUVS.resize(blocks.size() * 8);
+                
+                float *texUV = new float[blocks.size() * 8];
 
                 for (auto& block : blocks.items()) {
                     std::string blockName = block.key(); // Get the block name
+                    int _ID = block.value()["ID"];
+                    Block::TextureMap[blockName].ID = _ID;
 
                     int idx = 0;
                     for (auto& uv : block.value()["UV"].items()) {
                         for (auto& x : uv.value()) {
-                            Block::TextureMap[blockName].uv[idx] = x;
+                            texUV[(_ID * 8) + idx] = x; // 8 Is the uV count for a texture. 2 floats per vertex, 4 vertices per face.
+                            //Block::TextureMap[blockName].uv[idx] = x;
                             idx += 1;
                         }
                     }
                 }
+                unsigned int tex;
+                glGenBuffers(1, &tex);
+                glBindBuffer(GL_TEXTURE_BUFFER, tex);
+                glBufferData(GL_TEXTURE_BUFFER, blocks.size() * 8, texUV, GL_STATIC_DRAW);
+
+                glGenTextures(1, &tex);
+                glBindTexture(GL_TEXTURE_BUFFER, tex);
+                glTexBuffer(GL_TEXTURE_BUFFER, GL_R32F, tex);
+
+                glBindBuffer(GL_TEXTURE_BUFFER, 0);
+                glBindTexture(GL_TEXTURE_BUFFER, 0);
+
+                delete[] texUV;
+
+
+                
+
+
             }
             else {
                 std::cerr << "No 'Blocks' found in the JSON data." << std::endl;

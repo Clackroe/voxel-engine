@@ -20,7 +20,7 @@ World::World(Player* plyr)
     Block::loadBlockInfo();
 
     printf("Generating World...\n");
-    int w = 8;
+    int w = 4;
     for (int i = -(w / 2); i < w / 2;i++) {
         for (int j = -(w / 2); j < w / 2; j++) {
             chunk.push_back(new Chunk(glm::vec2(i, j)));
