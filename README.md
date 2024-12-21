@@ -1,4 +1,4 @@
-
+## NOTE: This was the very first graphics project AND my very first C/C++ project. This is kept public only as a reminder to what originally made me passionate about graphics and game engines.
 
 # Getting Started
 
